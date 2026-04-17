@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
-  } catch (error) {
+  } catch (error) { 
     console.error("Registration failed");
     return NextResponse.json(
       {
