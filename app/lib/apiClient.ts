@@ -60,17 +60,19 @@ class ApiClient {
       method: "GET",
     });
   }
+  //Admin methods
   async updateUserRole(userId: string, role: string) {
     return this.request(`/api/users/${userId}/role`, {
       method: "PATCH",
       body: JSON.stringify({ role }),
     });
   }
-  async assignUserTeam(userId: string, teamId: string) {
+  async assignUserToTeam(userId: string, teamId: string) {
     return this.request(`/api/users/${userId}/teamId`, {
       method: "PATCH",
       body: JSON.stringify({ teamId }),
     });
   }
-  //Admin methods
 }
+
+export const apiClient = new ApiClient();

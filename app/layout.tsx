@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import AuthProvider from "./provider/AuthProvider";
 
 
 export const metadata: Metadata = {
@@ -18,7 +19,11 @@ export default function RootLayout({
       lang="en"
       className="min-h-screen"
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   );
 }
