@@ -145,7 +145,7 @@ const AdminDashboard = ({
                       </td>
                     </tr>
                   )
-                });
+                })
                 };
 
               </tbody>
