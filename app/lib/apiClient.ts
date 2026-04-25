@@ -34,7 +34,7 @@ class ApiClient {
   async register(userData: unknown) {
     return this.request("/api/auth/register", {
       method: "POST",
-      body: JSON.stringify( userData ),
+      body: JSON.stringify(userData),
     });
   }
   async login(email: string, password: string) {
@@ -67,7 +67,7 @@ class ApiClient {
       body: JSON.stringify({ role }),
     });
   }
-  async assignUserToTeam(userId: string, teamId: string) {
+  async assignUserToTeam(userId: string, teamId: string | null) {
     return this.request(`/api/users/${userId}/teamId`, {
       method: "PATCH",
       body: JSON.stringify({ teamId }),
