@@ -1,6 +1,8 @@
+import ManagerDashboard from "@/app/components/layout/dashboard/ManagerDashboard";
 import { checkUserPermission, getCurrentUser } from "@/app/lib/auth";
 import { prisma } from "@/app/lib/db";
-import { Role } from "@/app/types";
+import { transformTeams, transformUsers } from "@/app/lib/utils";
+import { Role, User } from "@/app/types";
 import { redirect } from "next/navigation";
 
 const MangerPage = async () => {
@@ -11,7 +13,7 @@ const MangerPage = async () => {
 
   //Featch data for managaer dashboard
   const prismaMyTeamMembers = user.teamId ?
-    prisma.user.findMany({
+    await prisma.user.findMany({
       where: {
         teamId: user.teamId,
         role: { not: Role.ADMIN }
@@ -24,7 +26,7 @@ const MangerPage = async () => {
 
   //Fetch All team members (cross-team view - exclude sensitive fields)
   const prismaAllTeamMembers =
-    prisma.user.findMany({
+    await prisma.user.findMany({
       where: {
         role: { not: Role.ADMIN }
       },
@@ -41,10 +43,12 @@ const MangerPage = async () => {
       orderBy: { teamId: "desc" }
     });
 
+  const myTeamMembers = transformUsers(prismaMyTeamMembers);
+  const allTeamMembers = transformTeams(prismaAllTeamMembers);
   return (
     <ManagerDashboard
-      myTeamMembers={prismaMyTeamMembers}
-      allTeam={prismaAllTeamMembers}
+      myTeamMembers={myTeamMembers as User[]}
+      allTeamMembers={allTeamMembers as unknown as User[]}
       currentUser={user}
     />
   )

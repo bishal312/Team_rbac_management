@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from '@/app/provider/AuthProvider';
 import { User } from '@/app/types';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -11,6 +12,7 @@ interface HeadProps {
 
 export const Header = ({ user }: HeadProps) => {
   const pathname = usePathname();
+  const { logout } = useAuth();
   const navigation = [
     { name: "Home", href: "/", show: true },
     { name: "Dashboard", href: "/dashboard", show: true }
@@ -53,8 +55,8 @@ export const Header = ({ user }: HeadProps) => {
           <div className='flex items-center space-x-4'>
             {user ? (
               <>
-                <span className='text-sm text-slate-300'>Bsal</span>
-                <button className='px-3 py-2 bg-red-500 text-white text-sm rounded hover:bg-red-700 transition-colors'>Logout</button>
+                <span className='text-sm text-slate-300'>{user.name}</span>
+                <button onClick={logout} className='px-3 py-2 bg-red-500 text-white text-sm rounded hover:bg-red-700 transition-colors'>Logout</button>
               </>
             ) : (
               <>
